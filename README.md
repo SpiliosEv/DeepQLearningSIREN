@@ -14,11 +14,11 @@ It is part of a paper on the topic, submitted at the Transactions of Signal Proc
 
 
 **Table of Contents**
-1. [General Problem Formulation] (#general-problem-formulation)
-1. [Set up] (#Set up)
-1. [Channel Model] (#Channel Model)
-1. [Optimization] (#Optimization)
-1. [Reinforcement Learning] (#Reinforcement Learning)
+1. General Problem Formulation
+1. Set up 
+1. Channel Model
+1. Optimization
+1. Reinforcement Learning
 1. Deep Q Learning for Motion Control for single-source destination communication pair in Wireless Autonomous Networks
 1. The Spectral Bias and how it relates to the problem at hand
 1. SIRENs (Sinusoidal Representation Networks)
@@ -99,8 +99,8 @@ In Reinforcement Learning, we consider an intelligent agent that interacts with 
 At a given time step ![](https://latex.codecogs.com/png.latex?t) the agent is at a state ![](https://latex.codecogs.com/png.latex?s) and wants to choose actions ![](https://latex.codecogs.com/png.latex?a%20%5Cin%20A). When in state ![](https://latex.codecogs.com/png.latex?s) and committing action ![](https://latex.codecogs.com/png.latex?a) the agent receives a reward ![](https://latex.codecogs.com/png.latex?r) and transitions to a new state ![](https://latex.codecogs.com/png.latex?s%5E%7B%27%7D). The goal is for the agent to learn a bevavior (policy) to maximize the expected discounted sum of rewards.
 
 # Deep Q Learning 
-When the set of possible actions, that the agent can choose from at every state, is discrete (discrete control), the agent can learn a state-action value function ![](https://latex.codecogs.com/png.latex?Q%28s%2Ca%29) that quantifies the sum of discounted rewards that the agent is expected to aggregate when in state ![](https://latex.codecogs.com/png.latex?s) performs action ![](https://latex.codecogs.com/png.latex?a). In tabular settings, the ![](https://latex.codecogs.com/png.latex?Q) function can be learned by temporal differences (applying the Bellman operator).
-Tabular Q Learning does not scale for large state-action spaces and a more recent developments uses neural networks for approximating the ![](https://latex.codecogs.com/png.latex?Q) function (Deep Q Learning).
+When the set of possible actions, that the agent can choose from at every state, is discrete (discrete control), the agent can learn a state-action value function ![](https://latex.codecogs.com/png.latex?Q%28s%2Ca%29) that quantifies the sum of discounted rewards that the agent is expected to aggregate when in state ![](https://latex.codecogs.com/png.latex?s) performs action ![](https://latex.codecogs.com/png.latex?a). After the ![](https://latex.codecogs.com/png.latex?Q%28s%2Ca%29) function is learned the policy for every state is derived from maximizing the ![](https://latex.codecogs.com/png.latex?Q%28s%2Ca%29) value for every state with repsect to the discrete set of actions.  In tabular settings, the ![](https://latex.codecogs.com/png.latex?Q) function can be learned by temporal differences (applying the Bellman operator).
+Tabular Q Learning does not scale for large state-action spaces and more recent developments use neural networks for approximating the ![](https://latex.codecogs.com/png.latex?Q) function (Deep Q Learning).
 
 # Deep Q Learning for Motion Control for single-source destination communication pair in Wireless Autonomous Networks 
 The state is comprised by a vector of the coordinates of the grid cell, where the relay is located. The reward ![](https://latex.codecogs.com/png.latex?r) is the respective ![](https://latex.codecogs.com/png.latex?V_I).
@@ -125,7 +125,7 @@ The parameter ![](https://latex.codecogs.com/png.latex?%5Clambda) is a small sca
 he parameter ![](https://latex.codecogs.com/png.latex?%5Cgamma) is denoted as the *discount factor*
 and quantifies the amount of importance that the algorithm assigns to delayed rewards.
 
-The second stability mechanism used is the *Target Network*. The Target Network (![](https://latex.codecogs.com/png.latex?Q_%7Btarget%7D%28%5Cbf%7Bs%7D%27%2Ca%27%3B%20%5Cbf%7B%5Ctheta%5E%7B-%7D%7D%29)) is a neural network that provides the ![](https://latex.codecogs.com/png.latex?Q%28%5Cbf%7Bs%7D%27%2Ca%27%3B%20%5Cbf%7B%5Ctheta_%7Bt%7D%7D%29) estimate at every update step. This network has the same architecture as the main network (we will denote this as the *Policy Network* - not to be confused with a network parametrizing the policy in Policy Gradient or Actor Critic methods), ![](https://latex.codecogs.com/png.latex?Q_%7Bpolicy%7D%28%5Cbf%7Bs%7D%27%2Ca%27%3B%20%5Cbf%7B%5Ctheta%5E%7B&plus;%7D%7D%29).
+The second stability mechanism used is the *Target Network*. The Target Network ![](https://latex.codecogs.com/png.latex?Q_%7Btarget%7D%28%5Cbf%7Bs%7D%27%2Ca%27%3B%20%5Cbf%7B%5Ctheta%5E%7B-%7D%7D%29) is a neural network that provides the ![](https://latex.codecogs.com/png.latex?Q%28%5Cbf%7Bs%7D%27%2Ca%27%3B%20%5Cbf%7B%5Ctheta_%7Bt%7D%7D%29) estimate at every update step. This network has the same architecture as the main network (we will denote this as the *Policy Network* - not to be confused with a network parametrizing the policy in Policy Gradient or Actor Critic methods), ![](https://latex.codecogs.com/png.latex?Q_%7Bpolicy%7D%28%5Cbf%7Bs%7D%27%2Ca%27%3B%20%5Cbf%7B%5Ctheta%5E%7B&plus;%7D%7D%29).
 
 The Target Network's weights are kept frozen throughout the update process as we do not perform gradient descent on these weights, but occasionally we copy the weights of the Policy Network to the Target Network. This provides stationary targets for the weight updates and brings the task of the ![](https://latex.codecogs.com/png.latex?Q) function approximation closer to a supervised set up.
 
@@ -226,3 +226,8 @@ def Perfect_CSI(pathlossF_S, pathlossF_D, C_SD, C_SD_chol, kappa):
 * \epsilon goes from 1 to 0.01
 * batch size = 64
 
+
+# References
+
+1. Sitzmann, Vincent, et al. "Implicit neural representations with periodic activation functions." Advances in Neural Information Processing Systems 33 (2020).
+1. Kalogerias, Dionysios S., and Athina P. Petropulu. "Spatially controlled relay beamforming." IEEE Transactions on Signal Processing 66.24 (2018): 6418-6433.
