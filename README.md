@@ -16,6 +16,10 @@ It is part of a paper on the topic submitted at the Transactions of Signal Proce
 **Table of Contents**
 1. General Problem Formulation
 1. Set up
+1. Channel Model
+1. Optimization
+1. Reinforcement Learning
+1. 
 
 
 # General Problem Formulation
@@ -51,7 +55,7 @@ where $f_{r}^{PL}\left(\mathbf{p}\right)\triangleq\lVert \mathbf{p}-\mathbf{p}_{
 On taking the logarithm of the squared channel magnitude  we obtain the additive model $ F_{r}(\mathbf{p},t) = 10{log}_{10}(|f_{r}(\mathbf{p},t)|^2) = \alpha^f_{r}(\mathbf{p})+\beta^f_{r}(\mathbf{p},t)+\xi^f_{r}(\mathbf{p},t), $
 
 So we have, 
-$$ \alpha^f_{r}(\mathbf{p}) =  -\ell\ 10\text{log}_{10}(\lvert{\mathbf{p}-\mathbf{p}_{\textsf{S}}}\rvert_{2}) $$
+ <img src="https://latex.codecogs.com/gif.latex?alpha^f_{r}(\mathbf{p}) =  -\ell\ 10\text{log}_{10}(\lvert{\mathbf{p}-\mathbf{p}_{\textsf{S}}}\rvert_{2})" />  
 $$ \beta^f_{r}(\mathbf{p},t) =  10\text{log}_{10}\big(|f_{r}^{SH}(\mathbf{p},t)|^2\big) \sim \mathcal{N}(0,\eta^2) $$
 $$ \xi^f_{r}(\mathbf{p},t) =  10\text{log}_{10}\big(|f_{r}^{MF}(\mathbf{p},t)|^2\big) \sim \mathcal{N}(\rho,\sigma^2_{\xi}) $$ 
 
