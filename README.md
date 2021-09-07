@@ -19,7 +19,6 @@ It is part of a paper on the topic submitted at the Transactions of Signal Proce
 1. Channel Model
 1. Optimization
 1. Reinforcement Learning
-1. 
 
 
 # General Problem Formulation
@@ -46,16 +45,13 @@ In our case we investigate the case where there is only 1 source and 1 destinati
 
 # Channel Model
 
-The statistical description of the channel between the source and the $r$-th relay, located at position $\mathbf{p}\in \mathbb{R}^2$ during time slot $t$, can be modeled as a product of four terms
-\begin{equation} \label{channel_decomp}
-f_{r}(\mathbf{p},t)\triangleq f_{r}^{PL}(\mathbf{p})\, f_{r}^{SH}(\mathbf{p},t)\, f_{r}^{MF} (\mathbf{p},t)\, e^{j2\pi \phi(t)},
-\end{equation}
+The statistical description of the channel between the source and the $r$-th relay, located at position $\mathbf{p}\in \mathbb{R}^2$ during time slot $t$, can be modeled as a product of four terms ![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bequation%7D%20%5Clabel%7Bchannel_decomp%7D%20f_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%5Ctriangleq%20f_%7Br%7D%5E%7BPL%7D%28%5Cmathbf%7Bp%7D%29%5C%2C%20f_%7Br%7D%5E%7BSH%7D%28%5Cmathbf%7Bp%7D%2Ct%29%5C%2C%20f_%7Br%7D%5E%7BMF%7D%20%28%5Cmathbf%7Bp%7D%2Ct%29%5C%2C%20e%5E%7Bj2%5Cpi%20%5Cphi%28t%29%7D%2C%20%5Cend%7Bequation%7D)
 where $f_{r}^{PL}\left(\mathbf{p}\right)\triangleq\lVert \mathbf{p}-\mathbf{p}_{\textsf{S}}\rVert^{-\ell/2}_2$ is the path-loss component, with $\ell$ being the path-loss exponent; $f_{r}^{SH} \left(\mathbf{p},t\right)$ the shadow fading component; $f_{r}^{MF} \left(\mathbf{p},t \right)$ the multi-path fading component; and $e^{j2\pi \phi(t)}$ is the phase term, with $\phi$ uniformly distributed in $[0,1]$. A similar decomposition holds for the relay-destination channel $g_{r}({\mathbf{p}},t)$.
 
 On taking the logarithm of the squared channel magnitude  we obtain the additive model $ F_{r}(\mathbf{p},t) = 10{log}_{10}(|f_{r}(\mathbf{p},t)|^2) = \alpha^f_{r}(\mathbf{p})+\beta^f_{r}(\mathbf{p},t)+\xi^f_{r}(\mathbf{p},t), $
 
 So we have, 
- <img src="https://latex.codecogs.com/gif.latex?alpha^f_{r}(\mathbf{p}) =  -\ell\ 10\text{log}_{10}(\lvert{\mathbf{p}-\mathbf{p}_{\textsf{S}}}\rvert_{2})" />  
+ $$ \alpha^f_{r}(\mathbf{p}) =  -\ell\ 10\text{log}_{10}(\lvert{\mathbf{p}-\mathbf{p}_{\textsf{S}}}\rvert_{2}) $$ 
 $$ \beta^f_{r}(\mathbf{p},t) =  10\text{log}_{10}\big(|f_{r}^{SH}(\mathbf{p},t)|^2\big) \sim \mathcal{N}(0,\eta^2) $$
 $$ \xi^f_{r}(\mathbf{p},t) =  10\text{log}_{10}\big(|f_{r}^{MF}(\mathbf{p},t)|^2\big) \sim \mathcal{N}(\rho,\sigma^2_{\xi}) $$ 
 
