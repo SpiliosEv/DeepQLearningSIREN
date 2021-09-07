@@ -311,7 +311,7 @@ if __name__ ==  '__main__':
     plt.show()
     
 
-    print(policy_net.delta.data)
+    
          
 
 
