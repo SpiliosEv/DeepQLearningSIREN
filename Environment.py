@@ -5,7 +5,7 @@ from scipy import spatial, linalg, io
 
 
 """ 
-Initializing some hyperparameters for the problem
+We begin by intializing some hyperparameters for the problem ...
 """
 
 # Square grid boundaries
