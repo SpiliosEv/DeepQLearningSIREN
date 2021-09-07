@@ -1,8 +1,8 @@
 ### **Deep Q Learning with Sinusoidal Representation Networks (SIRENs) for Motion Control in Wireless Autonomous Networks**
 
 
-This is a Variation of the Deep Q Learning algorithm for Discrete Motion Control in Mobile Beamforming Wireless Autonomous Networks in PyTorch
-It is part of a paper on the topic submitted at the Transactions of Signal Processing Journal (TSP) on the Domain of Deep Learning for Wireless Communications
+This is a Variation of the Deep Q Learning algorithm for Discrete Motion Control in Mobile Beamforming Wireless Autonomous Networks in PyTorch.
+It is part of a paper on the topic, submitted at the Transactions of Signal Processing Journal (TSP) on the Domain of Deep Learning for Wireless Communications
 
 ---
 
@@ -14,11 +14,11 @@ It is part of a paper on the topic submitted at the Transactions of Signal Proce
 
 
 **Table of Contents**
-1. General Problem Formulation
-1. Set up
-1. Channel Model
-1. Optimization
-1. Reinforcement Learning
+1. [General Problem Formulation] (#General Problem Formulation)
+1. [Set up] (#Set up)
+1. [Channel Model] (#Channel Model)
+1. [Optimization] (#Optimization)
+1. [Reinforcement Learning] (#Reinforcement Learning)
 1. Deep Q Learning for Motion Control for single-source destination communication pair in Wireless Autonomous Networks
 1. The Spectral Bias and how it relates to the problem at hand
 1. SIRENs (Sinusoidal Representation Networks)
@@ -28,13 +28,13 @@ It is part of a paper on the topic submitted at the Transactions of Signal Proce
 
 
 # General Problem Formulation
-We consider joint beamforming and relay motion control in mobile relay beamforming networks, operating in a spatio-temporally varying channel environment.  A time slotted approach is adopted, where in each slot, the relays - drones implement optimal beamforming, and estimate their optimal positions for the next slot. 
+We consider joint beamforming and relay motion control in mobile relay beamforming networks, operating in a spatio-temporally varying channel environment.  A time slotted approach is adopted, where in each slot, the relays - drones implement optimal beamforming and estimate their optimal positions to locate themselves for the next slot. 
  We place the problem of relay motion control in a sequential decision-making framework.
 We employ Deep Reinforcement Learning (RL) to guide the relay motion, with the goal of maximizing the cumulative Signal-to-Interference+Noise Ratio (SINR) at the destination.
 
 # Set up 
 We consider a **2-dimensional grid** and a communications source and destination pair. The source and the destination cannot communicate directly (No Line-of-Sight), therefore we employ some **relays-drones** as individual intelligent agents to assist the communication of the pair. The agents can move to exploit the spatiotemporal correlations of the channel in order to achieve high SINR at the destination. 
-The grid is dissected to grid cells. Each drone can occupy at most one grid cell every time slot. The decision for the displacement of each drone at every time slot pertians to the choice of which neighboring cell to move to (or stay in the same grid cell). That constitutes **a set of 9 possible actions**: 
+The grid is dissected into grid cells. Each drone can occupy, at most one grid cell, during every time slot. The decision for the displacement for each drone at every time slot pertains to the choice of which neighboring cell to move to (or stay in the same grid cell). That constitutes **a set of 9 possible actions**: 
 * moving North ('N')
 * moving South ('S')
 * moving West ('W')
@@ -51,19 +51,19 @@ In our case we investigate the case where there is only 1 source and 1 destinati
 
 # Channel Model
 
-The statistical description of the channel between the source and the $r$-th relay, located at position $\mathbf{p}\in \mathbb{R}^2$ during time slot $t$, can be modeled as a product of four terms ![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bequation%7D%20%5Clabel%7Bchannel_decomp%7D%20f_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%5Ctriangleq%20f_%7Br%7D%5E%7BPL%7D%28%5Cmathbf%7Bp%7D%29%5C%2C%20f_%7Br%7D%5E%7BSH%7D%28%5Cmathbf%7Bp%7D%2Ct%29%5C%2C%20f_%7Br%7D%5E%7BMF%7D%20%28%5Cmathbf%7Bp%7D%2Ct%29%5C%2C%20e%5E%7Bj2%5Cpi%20%5Cphi%28t%29%7D%2C%20%5Cend%7Bequation%7D)
+The statistical description of the channel between the source and the r-th relay, located at position ![](https://latex.codecogs.com/png.latex?%5Cmathbf%7Bp%7D%5Cin%20%5Cmathbb%7BR%7D%5E2) during time slot ![](https://latex.codecogs.com/png.latex?t), can be modeled as a product of four terms ![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Bequation%7D%20%5Clabel%7Bchannel_decomp%7D%20f_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%5Ctriangleq%20f_%7Br%7D%5E%7BPL%7D%28%5Cmathbf%7Bp%7D%29%5C%2C%20f_%7Br%7D%5E%7BSH%7D%28%5Cmathbf%7Bp%7D%2Ct%29%5C%2C%20f_%7Br%7D%5E%7BMF%7D%20%28%5Cmathbf%7Bp%7D%2Ct%29%5C%2C%20e%5E%7Bj2%5Cpi%20%5Cphi%28t%29%7D%2C%20%5Cend%7Bequation%7D)
 where ![](https://latex.codecogs.com/png.latex?f_%7Br%7D%5E%7BPL%7D%5Cleft%28%5Cmathbf%7Bp%7D%5Cright%29%5Ctriangleq%5ClVert%20%5Cmathbf%7Bp%7D-%5Cmathbf%7Bp%7D_%7B%5Ctextsf%7BS%7D%7D%5CrVert%5E%7B-%5Cell/2%7D_2) is the path-loss component, with ![](https://latex.codecogs.com/png.latex?%5Cell) being the path-loss exponent; ![](https://latex.codecogs.com/png.latex?f_%7Br%7D%5E%7BSH%7D%20%5Cleft%28%5Cmathbf%7Bp%7D%2Ct%5Cright%29) the shadow fading component; ![](https://latex.codecogs.com/png.latex?f_%7Br%7D%5E%7BMF%7D%20%5Cleft%28%5Cmathbf%7Bp%7D%2Ct%20%5Cright%29) the multi-path fading component; and ![](https://latex.codecogs.com/png.latex?e%5E%7Bj2%5Cpi%20%5Cphi%28t%29%7D) is the phase term, with ![](https://latex.codecogs.com/png.latex?%5Cphi) uniformly distributed in [0,1]. A similar decomposition holds for the relay-destination channel ![](https://latex.codecogs.com/png.latex?g_%7Br%7D%28%7B%5Cmathbf%7Bp%7D%7D%2Ct%29).
 
 On taking the logarithm of the squared channel magnitude  we obtain the additive model ![](https://latex.codecogs.com/png.latex?F_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%20%3D%2010%7Blog%7D_%7B10%7D%28%7Cf_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%7C%5E2%29%20%3D%20%5Calpha%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%29&plus;%5Cbeta%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29&plus;%5Cxi%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%2C)
 
 So we have, 
-![](https://latex.codecogs.com/png.latex?%5Calpha%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%29%20%3D%20-%5Cell%5C%2010%5Ctext%7Blog%7D_%7B10%7D%28%5Clvert%7B%5Cmathbf%7Bp%7D-%5Cmathbf%7Bp%7D_%7B%5Ctextsf%7BS%7D%7D%7D%5Crvert_%7B2%7D%29) 
-![](https://latex.codecogs.com/png.latex?%5Cbeta%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%20%3D%2010%5Ctext%7Blog%7D_%7B10%7D%5Cbig%28%7Cf_%7Br%7D%5E%7BSH%7D%28%5Cmathbf%7Bp%7D%2Ct%29%7C%5E2%5Cbig%29%20%5Csim%20%5Cmathcal%7BN%7D%280%2C%5Ceta%5E2%29)
+![](https://latex.codecogs.com/png.latex?%5Calpha%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%29%20%3D%20-%5Cell%5C%2010%5Ctext%7Blog%7D_%7B10%7D%28%5Clvert%7B%5Cmathbf%7Bp%7D-%5Cmathbf%7Bp%7D_%7B%5Ctextsf%7BS%7D%7D%7D%5Crvert_%7B2%7D%29) ,
+![](https://latex.codecogs.com/png.latex?%5Cbeta%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%20%3D%2010%5Ctext%7Blog%7D_%7B10%7D%5Cbig%28%7Cf_%7Br%7D%5E%7BSH%7D%28%5Cmathbf%7Bp%7D%2Ct%29%7C%5E2%5Cbig%29%20%5Csim%20%5Cmathcal%7BN%7D%280%2C%5Ceta%5E2%29),
 ![](https://latex.codecogs.com/png.latex?%5Cxi%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29%20%3D%2010%5Ctext%7Blog%7D_%7B10%7D%5Cbig%28%7Cf_%7Br%7D%5E%7BMF%7D%28%5Cmathbf%7Bp%7D%2Ct%29%7C%5E2%5Cbig%29%20%5Csim%20%5Cmathcal%7BN%7D%28%5Crho%2C%5Csigma%5E2_%7B%5Cxi%7D%29)
 
-In the above, ![](https://latex.codecogs.com/png.latex?%5Ceta%5E2) is the shadowing power, and  ![](https://latex.codecogs.com/png.latex?%5Crho),![](https://latex.codecogs.com/png.latex?%5Csigma_%7B%5Cxi%7D%5E2) are respectively the mean and variance of   multipath fading component.
+In the above, ![](https://latex.codecogs.com/png.latex?%5Ceta%5E2) is the shadowing power, and  ![](https://latex.codecogs.com/png.latex?%5Crho), ![](https://latex.codecogs.com/png.latex?%5Csigma_%7B%5Cxi%7D%5E2) are respectively the mean and variance of the multipath fading component.
 
-Although the multipath fading component, ![](https://latex.codecogs.com/png.latex?%5Cxi%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29), is i.i.d. between different positions and times, the shadowing component, ![](https://latex.codecogs.com/png.latex?%5Cbeta%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29), is correlated.
+Although the multipath fading component, ![](https://latex.codecogs.com/png.latex?%5Cxi%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29), is i.i.d. between different positions and times, the shadowing component, ![](https://latex.codecogs.com/png.latex?%5Cbeta%5Ef_%7Br%7D%28%5Cmathbf%7Bp%7D%2Ct%29) is correlated.
 Specifically, the shadowing component ![](https://latex.codecogs.com/png.latex?%5Cbeta%5Ef_r%28%5Cmathbf%7Bp%7D_i%2Ct%29) (similarly ![](https://latex.codecogs.com/png.latex?%5Cbeta%5Eg_r%28%5Cmathbf%7Bp%7D_i%2Ct%29)), between any two positions ![](https://latex.codecogs.com/png.latex?%5Cmathbf%7Bp%7D_i) and ![](https://latex.codecogs.com/png.latex?%5Cmathbf%7Bp%7D_j), at two  time slots ![](https://latex.codecogs.com/png.latex?t_a) and ![](https://latex.codecogs.com/png.latex?t_b), exhibits correlations according to
 ![](https://latex.codecogs.com/png.latex?%5Cmathbb%7BE%7D%5B%5Cbeta%5Ef_r%28%5Cmathbf%7Bp%7D_i%2C%20t_a%29%5Cbeta%5Ef_r%28%5Cmathbf%7Bp%7D_j%2Ct_b%29%5D%3D%20%5Ctilde%7B%5Cmathbf%7B%5CSigma%7D%7D%5E%7Bf%7D%28%5Cmathbf%7Bp%7D_i%2C%5Cmathbf%7Bp%7D_j%29%20e%5E%7B-%5Cfrac%7B%7Ct_a-t_b%7C%7D%7Bc_2%7D%7D%2C)
 
