@@ -14,7 +14,7 @@ It is part of a paper on the topic, submitted at the Transactions of Signal Proc
 
 
 **Table of Contents**
-1. [General Problem Formulation] (#General Problem Formulation)
+1. [General Problem Formulation] (#general-problem-formulation)
 1. [Set up] (#Set up)
 1. [Channel Model] (#Channel Model)
 1. [Optimization] (#Optimization)
