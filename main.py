@@ -75,8 +75,8 @@ if __name__ ==  '__main__':
     capacity = arguments.mem_capacity
     memory = ReplayMemory(capacity=capacity)
     initial_capacity = arguments.initial_mem_capacity
-    f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\RELAYS_SIREN\f_maps.npy")
-    g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\RELAYS_SIREN\g_maps.npy")
+    f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps.npy")
+    g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps.npy")
     
     """  
     First we initialize the Replay Memory with experiences-tuples from some random trajectories
@@ -141,8 +141,6 @@ if __name__ ==  '__main__':
         state = np.array([[9,3],[9,2],[9,4]]) # we begin from the same position after every episode
         reward_per_episode = 0
         for j in range(400): # 400 time slots in every episode
-            print(epsilon)
-            # movement
             currentState = np.ravel_multi_index( state.T, (rMap_RowCells, rMap_ColCells) )
             action = []
             new_relay_pos = np.zeros([numRelays,2], dtype=np.int) 
@@ -262,7 +260,6 @@ if __name__ ==  '__main__':
             states_relay1 = torch.tensor(states_relay1, dtype = torch.float32)
             states_relay1 = states_relay1.to(device)
             actions = actions.to(device)
-            #print(actions.unsqueeze(-1).shape)
             actions = torch.tensor(actions, dtype = torch.int64)
             q_pred = policy_net.forward(states_relay1).gather(1, actions)
             
