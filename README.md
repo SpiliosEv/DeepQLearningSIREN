@@ -121,7 +121,7 @@ where,
 ![](https://latex.codecogs.com/png.latex?Y_%7Bt%7D%20%3D%20r%20&plus;%20%5Cgamma%20%5Cmax_%7Ba%27%7D%20Q%28%5Cbf%7Bs%27%7D%2Ca%27%3B%5Cbf%7B%5Ctheta%7D_%7Bt%7D%29)
 
 
-The parameter ![](https://latex.codecogs.com/png.latex?%5Clambda) is a small scalar step size, denoted as the ~~learning rate~~.
+The parameter ![](https://latex.codecogs.com/png.latex?%5Clambda) is a small scalar step size, denoted as the learning rate.
 he parameter ![](https://latex.codecogs.com/png.latex?%5Cgamma) is denoted as the *discount factor*
 and quantifies the amount of importance that the algorithm assigns to delayed rewards.
 
