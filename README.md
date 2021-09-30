@@ -161,7 +161,8 @@ It is prevalent that the use of SIRENs (and the use of Fourier Features) signifi
 we plot the system performance of all motion control methods. We plot the average SINR at the destination (in dB scale) achieved by the cooperation of all $3$ relays, per episode, for 300 episodes, where every episode is comprised by $400$ steps. The transmission power of the source is ![](https://latex.codecogs.com/png.latex?P_S%3D43dbm) and the relay transmission power budget is ![](https://latex.codecogs.com/png.latex?P_R%3D55dBm). The assumed channel parameters are set as ![](https://latex.codecogs.com/png.latex?%5Cell%3D2.3),![](https://latex.codecogs.com/png.latex?%5Crho%3D3), ![](https://latex.codecogs.com/png.latex?%5Ceta%5E2%3D4), ![](https://latex.codecogs.com/png.latex?%5Csigma%5E2_%7B%5Cxi%7D%3D3), ![](https://latex.codecogs.com/png.latex?c_1%3D1.2), ![](https://latex.codecogs.com/png.latex?c_2%3D0.6), ![](https://latex.codecogs.com/png.latex?c_3%3D0.5). The variance of the noise at the relays and destination are ![](https://latex.codecogs.com/png.latex?%5Csigma%5E2_D%3D%5Csigma%5E2%3D0.5).
 
 The data used for the simulations are contained in the two files ("f_maps.npy" and "g_maps.npy").
-If one wants to create their own data they can use the function Perfect_CSI.npy contained in the Environment.py file. It is also given below:
+If one wants to create their own data they can use the function Perfect_CSI.npy contained in the Environment.py file. It is also given below: 
+(written and provided by Anastasios Dimas)
 
 ``` python
 def Perfect_CSI(pathlossF_S, pathlossF_D, C_SD, C_SD_chol, kappa):
