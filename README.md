@@ -46,7 +46,7 @@ The grid is dissected into grid cells. Each drone can occupy, at most one grid c
 * staying ('Stay')
 
 <img src="./topology.png"  />
-
+(this figure is created by Anastasios Dimas)
 In our case we investigate the case where there is only 1 source and 1 destination (3 drones-agents to facilitate the communication). 
 
 # Channel Model
@@ -153,7 +153,7 @@ Again, we adapt this concept for the problem of Deep Q learning for relay motion
 We demostrate the results of the Vanilla Deep Q Learning and of the Variation with SIRENs (we call DQL-SIREN) and compare them with a model based approach for the same problem and a variation with the use of Fourier Features, that also targets the spectral bias (we call DQL-FFM)
 
 <img src="./comparative_results.png"  />
-(this figure is taken by Anastasios Dimas)
+
 It is prevalent that the use of SIRENs (and the use of Fourier Features) significantly impacts the speed of convergence and the rewards of the resulting policies. 
 
 # Data
