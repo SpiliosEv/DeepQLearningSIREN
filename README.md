@@ -169,7 +169,7 @@ def Perfect_CSI(pathlossF_S, pathlossF_D, C_SD, C_SD_chol, kappa):
     
     """ 
     This function creates a dataset for the channel magnitudes to the source and destination for all grid cells of a given grid and for all time slots in 
-    a time horizon. 
+    a time horizon. (Anastasios Dimas)
     """
 
     
