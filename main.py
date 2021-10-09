@@ -1,3 +1,28 @@
+"""
+*************************************************************************************************************
+Version
+    Last revision: October 2021
+    Author: Spilios Evmorfos
+
+Purpose
+    The purpose of this code file is to support the paper:
+    S. Evmorfos, K. Diamantaras, A. Petropulu, Reinforcement Learning for Motion Policies in Mobile Relaying Networks,
+    Journal of Transactions in Signal Processing (TSP), 2021
+
+   Any part of this code used in your work should cite the above publication.
+
+This code is provided "as is" to support the ideals of reproducible research. Any issues with this
+code should be reported by email to se386@scarletmail.rutgers.edu.
+
+The code is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+available at https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+*************************************************************************************************************
+"""
+
+
+
+# Import Python Libraries
 import argparse
 import numpy as np  
 import torch 
