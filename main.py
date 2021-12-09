@@ -36,6 +36,7 @@ import Environment
 from Siren_network import DQNNet_siren
 import matplotlib.pyplot as plt
 
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu") # initialize a device
 
 
@@ -102,6 +103,10 @@ if __name__ ==  '__main__':
     initial_capacity = arguments.initial_mem_capacity
     f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
     g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
+    
+    """if one wants to create a new dataset of channel data, they need to comment the two commands above and uncomment the below commands"""
+    
+    #f_maps, g_maps = Environment.Perfect_CSI(pathlossF, pathlossG, C_SD, C_SD_chol, kappa)
     
     """  
     First we initialize the Replay Memory with experiences-tuples from some random trajectories
