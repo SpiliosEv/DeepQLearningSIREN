@@ -100,8 +100,8 @@ if __name__ ==  '__main__':
     capacity = arguments.mem_capacity
     memory = ReplayMemory(capacity=capacity)
     initial_capacity = arguments.initial_mem_capacity
-    f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps.npy")
-    g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps.npy")
+    f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
+    g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
     
     """  
     First we initialize the Replay Memory with experiences-tuples from some random trajectories
