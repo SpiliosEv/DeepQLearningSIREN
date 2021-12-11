@@ -46,7 +46,7 @@ ell= 2.3
 rho= 3
 
 P_S = 10**((45-30)/10) #10**((35-30)/10) #source power % dbm to power  
-P_R = 10**((55-30)/10) #10**((45-30)/10) #total relay budget power 
+P_R = 10**((45-30)/10) #10**((45-30)/10) #total relay budget power 
 sigmaSQ = 1
 sigma_xiSQ = 3  # multipath variance
 sigma_DSQ = 1
@@ -174,7 +174,7 @@ class GridWorld(object):
 
 
 
-def VI_local(f_S, f_D):
+def VI_local(f_S, f_D, P_R, P_S):
     """ 
     This function takes as input the magnitude of the channel to the source and the magnitude of the channel to the destination for a particular direction
     grid cell at a particular time slot and computes the contribution of this relay (at the said time slot) to the overall SINR (Signal-to-Interference+Noise) at the 

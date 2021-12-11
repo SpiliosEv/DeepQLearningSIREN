@@ -48,6 +48,8 @@ if __name__ ==  '__main__':
     parser.add_argument('--num_train_eps', type=int, default=300, help='the number of the training episodes')
     parser.add_argument('--lr', type=int, default=1e-4, help='learning rate')
     parser.add_argument('--batch_size', type=int, default=64, help='size of the batch')
+    parser.add_argument('--Dataset', type=int, default=1, help='Choose between the two datasets')
+    
     
 
 
@@ -72,8 +74,7 @@ if __name__ ==  '__main__':
     ell= Environment.ell
     rho= Environment.rho
 
-    P_S = Environment.P_S  
-    P_R = Environment.P_R
+
     sigmaSQ = Environment.sigmaSQ
     sigma_xiSQ = Environment.sigma_xiSQ
     sigma_DSQ = Environment.sigma_DSQ
@@ -101,17 +102,28 @@ if __name__ ==  '__main__':
     capacity = arguments.mem_capacity
     memory = ReplayMemory(capacity=capacity)
     initial_capacity = arguments.initial_mem_capacity
-    f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
-    g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
     
-    """if one wants to create a new dataset of channel data, they need to comment the two commands above and uncomment the below commands"""
-    
-    #f_maps, g_maps = Environment.Perfect_CSI(pathlossF, pathlossG, C_SD, C_SD_chol, kappa)
-    
+    Dataset = arguments.Dataset
+    if Dataset == 1:
+        f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps.npy")
+        g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps.npy")
+        P_S = 10**((45-30)/10)
+        P_R = 10**((55-30)/10)
+    elif Dataset == 2:
+        f_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\f_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
+        g_maps = np.load(r"C:\Users\Spilios\OneDrive\Desktop\DQL_SIREN\g_maps_n_10_c1_10_c2_20_multipath_1_symmetric.npy")
+        P_S = 10**((45-30)/10)
+        P_R = 10**((45-30)/10)
+    else:
+        f_maps, g_maps = Environment.Perfect_CSI(pathlossF, pathlossG, C_SD, C_SD_chol, kappa)
+        P_S = Environment.P_S   
+        P_R = Environment.P_R   
     """  
     First we initialize the Replay Memory with experiences-tuples from some random trajectories
     """
     
+    
+
     
     for k in range(arguments.memory_fill_eps):
         current_position = np.array([[19,10],[18,10],[15,17]]) # This is the positions for the relays at the beginning of every episode
@@ -135,9 +147,9 @@ if __name__ ==  '__main__':
             """  
             Calculate the contribution of every relay to the SINR (reward for every relay-agent)
             """
-            reward_relay1 = Environment.VI_local(f_maps[new_relay_pos[0][0],new_relay_pos[0][1],i],g_maps[new_relay_pos[0][0],new_relay_pos[0][1],i])
-            reward_relay2 = Environment.VI_local(f_maps[new_relay_pos[1][0],new_relay_pos[1][1],i],g_maps[new_relay_pos[1][0],new_relay_pos[1][1], i])
-            reward_relay3 = Environment.VI_local(f_maps[new_relay_pos[2][0],new_relay_pos[2][1],i],g_maps[new_relay_pos[2][0],new_relay_pos[2][1],i])
+            reward_relay1 = Environment.VI_local(f_maps[new_relay_pos[0][0],new_relay_pos[0][1],i],g_maps[new_relay_pos[0][0],new_relay_pos[0][1],i], P_R, P_S)
+            reward_relay2 = Environment.VI_local(f_maps[new_relay_pos[1][0],new_relay_pos[1][1],i],g_maps[new_relay_pos[1][0],new_relay_pos[1][1], i], P_R, P_S)
+            reward_relay3 = Environment.VI_local(f_maps[new_relay_pos[2][0],new_relay_pos[2][1],i],g_maps[new_relay_pos[2][0],new_relay_pos[2][1],i], P_R, P_S)
             reward = []
             reward.append(reward_relay1)
             reward.append(reward_relay2)
@@ -161,16 +173,23 @@ if __name__ ==  '__main__':
     num_train_eps = arguments.num_train_eps
     discount = 0.99
     
+    trajectory = [] # a list to keep the trajectory points for the last epoch
+    
+    
     epsilon = 1
     epsilon_min = 0.01
     epsilon_decay = 0.995
     update_frequency = 40
     update_epsilon_frequency = 40
+    trajectory_length_for_visualization = 50
     
     for ep_cnt in range(num_train_eps):
         state = np.array([[9,3],[9,2],[9,4]]) # we begin from the same position after every episode
         reward_per_episode = 0
         for j in range(400): # 400 time slots in every episode
+            '''we store a sample from the trajectory of the last epoch for visualization'''
+            if ep_cnt == num_train_eps - 1 and j >= 0  and j < trajectory_length_for_visualization:
+                trajectory.append(state)
             currentState = np.ravel_multi_index( state.T, (rMap_RowCells, rMap_ColCells) )
             action = []
             new_relay_pos = np.zeros([numRelays,2], dtype=np.int) 
@@ -231,9 +250,9 @@ if __name__ ==  '__main__':
                     print(action_chosen)
             # at this point we have calculated the action and new state for every relay
             print(new_relay_pos) # we print the new state (position)
-            reward_relay1 = Environment.VI_local(f_maps[new_relay_pos[0][0],new_relay_pos[0][1],j],g_maps[new_relay_pos[0][0],new_relay_pos[0][1],j])
-            reward_relay2 = Environment.VI_local(f_maps[new_relay_pos[1][0],new_relay_pos[1][1],j],g_maps[new_relay_pos[1][0],new_relay_pos[1][1],j])
-            reward_relay3 = Environment.VI_local(f_maps[new_relay_pos[2][0],new_relay_pos[2][1],j],g_maps[new_relay_pos[2][0],new_relay_pos[2][1],j])
+            reward_relay1 = Environment.VI_local(f_maps[new_relay_pos[0][0],new_relay_pos[0][1],j],g_maps[new_relay_pos[0][0],new_relay_pos[0][1],j], P_R, P_S)
+            reward_relay2 = Environment.VI_local(f_maps[new_relay_pos[1][0],new_relay_pos[1][1],j],g_maps[new_relay_pos[1][0],new_relay_pos[1][1],j], P_R, P_S)
+            reward_relay3 = Environment.VI_local(f_maps[new_relay_pos[2][0],new_relay_pos[2][1],j],g_maps[new_relay_pos[2][0],new_relay_pos[2][1],j], P_R, P_S)
             """
             At this point, for all relays we have calculated the action, the new state and the reward (contribution to the SINR)
             """
@@ -320,9 +339,8 @@ if __name__ ==  '__main__':
         print("this is the end of episode", ep_cnt)
         reward_per_episode_list.append(reward_per_episode)   
         
-        
     """ 
-    Plotting the average SINR at the destination for every episode
+    For plotting the average SINR at the destination for every episode
     """  
     reward_per_episode_list1 = np.array(reward_per_episode_list)
     k = reward_per_episode_list1.size
@@ -333,15 +351,43 @@ if __name__ ==  '__main__':
     for i in range(k):
         results[i] = reward_per_episode_list[i]/400
         results[i] = 10*np.log10(results[i])
+    
 
-    plt.plot(a,results)
+    
+    """ visualization for part of the trajectory for the last epoch"""
+    for i in range(trajectory_length_for_visualization):
+        if i == 0:
+            plt.plot(a,results)
+        else:
+            plt.clf()
+            Rinit_pos = trajectory[i]
+            fig, ax = plt.subplots()
+            plt.scatter(Rinit_pos[:,1]+spacing/2, Rinit_pos[:,0]+spacing/2, s=100,marker="o", color='#1f77b4')
+            for r in range(numRelays):
+                plt.annotate('{}'.format(r+1), [Rinit_pos[r,1]+spacing/4,Rinit_pos[r,0]+(0.92)], fontweight='bold', size=10, color='black')      
+            plt.scatter(grid_X.flatten(), grid_Y.flatten(), marker=".", color='#ff7f0e')
+            ax.set_ylim(ax.get_ylim()[::-1])        
+            ax.xaxis.tick_top()                        
+            ax.xaxis.set_ticks(np.arange(-1, rMap_ColCells+1, 1)) 
+            ax.xaxis.set_visible(False)   
+            ax.yaxis.set_ticks(np.arange(-6,grid_max+1, 1)) 
+            ax.yaxis.set_visible(False) 
+            ax.yaxis.tick_left()                    
+            ax.xaxis.set_label_position('top') 
+
+
+            plt.annotate('S', [S_cord[0,1], S_cord[0,0]], fontweight='bold', size=14, color='green' ) 
+            plt.annotate('D', [D_cord[0,1], D_cord[0,0]], fontweight='bold', size=14, color='red' ) 
+        plt.pause(1)
+    
+    
     plt.show()
+    plt.ioff()
+
+
     
 
     
-         
-
-
 
                     
 
