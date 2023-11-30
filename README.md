@@ -3,7 +3,6 @@
 
 This is a Variation of the Deep Q Learning algorithm for Discrete Motion Control in Mobile Beamforming Wireless Autonomous Networks in PyTorch.
 It is part of a paper on the topic, submitted at the Transactions of Signal Processing Journal (TSP) on the Domain of Deep Learning for Wireless Communications.
-Functions for the Dataset and the Environment by Anastasios Dimas (along with the figure for the topology)
 ---
 
 # Prerequisites
